@@ -25,9 +25,21 @@ public final class SierraEcgFiles {
 	private SierraEcgFiles() {
 	}
 	
+	private static PreprocessReturn preprocessNew(JAXBContext context, InputStream inputStream) throws JAXBException, IOException {
+		Unmarshaller reader = context.createUnmarshaller();
+		Restingecgdata restingecgdata = (Restingecgdata)reader.unmarshal(inputStream);
+		
+		return preprocessNewComplete(restingecgdata);
+	}
+	
 	private static PreprocessReturn preprocessNew(JAXBContext context, File input) throws JAXBException, IOException {
 		Unmarshaller reader = context.createUnmarshaller();
 		Restingecgdata restingecgdata = (Restingecgdata)reader.unmarshal(input);
+
+		return preprocessNewComplete(restingecgdata);
+	}
+	
+	private static PreprocessReturn preprocessNewComplete(Restingecgdata restingecgdata) throws JAXBException, IOException{
 		DecodedLead[] leads = extractLeads(restingecgdata);
 		
 		StringBuffer buffer = new StringBuffer();
@@ -51,10 +63,23 @@ public final class SierraEcgFiles {
         return new PreprocessReturn(restingecgdata, leads);
 	}
 	
+	private static Restingecgdata preprocess(JAXBContext context, InputStream inputStream) throws JAXBException, IOException {
+		Unmarshaller reader = context.createUnmarshaller();
+		Restingecgdata restingecgdata = (Restingecgdata)reader.unmarshal(inputStream);
+		
+		return preprocessComplete(restingecgdata);
+	}
+	
 	private static Restingecgdata preprocess(JAXBContext context, File input) throws JAXBException, IOException {
 		Unmarshaller reader = context.createUnmarshaller();
 		Restingecgdata restingecgdata = (Restingecgdata)reader.unmarshal(input);
-		DecodedLead[] leads = extractLeads(restingecgdata);
+		
+		return preprocessComplete(restingecgdata);
+	
+	}
+	
+	private static Restingecgdata preprocessComplete(Restingecgdata restingecgdata) throws JAXBException, IOException{
+	DecodedLead[] leads = extractLeads(restingecgdata);
 		
 		StringBuffer buffer = new StringBuffer();
         for (DecodedLead lead : leads) {
@@ -75,6 +100,12 @@ public final class SierraEcgFiles {
         parsedwaveforms.setValue(buffer.toString());
         
         return restingecgdata;
+	}
+	
+	public static PreprocessReturn preprocess(InputStream inputStream) throws IOException, JAXBException {
+		JAXBContext context = JAXBContext.newInstance("org.sierraecg.schema");
+		
+		return preprocessNew(context, inputStream);
 	}
 	
 	public static PreprocessReturn preprocess(File input) throws IOException, JAXBException {
