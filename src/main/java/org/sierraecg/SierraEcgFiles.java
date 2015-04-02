@@ -24,8 +24,9 @@ public final class SierraEcgFiles {
 	
 	private SierraEcgFiles() {
 	}
-	
+
 	private static PreprocessReturn preprocessNew(JAXBContext context, InputStream inputStream) throws JAXBException, IOException {
+		
 		Unmarshaller reader = context.createUnmarshaller();
 		Restingecgdata restingecgdata = (Restingecgdata)reader.unmarshal(inputStream);
 		
@@ -40,6 +41,8 @@ public final class SierraEcgFiles {
 	}
 	
 	private static PreprocessReturn preprocessNewComplete(Restingecgdata restingecgdata) throws JAXBException, IOException{
+
+		
 		DecodedLead[] leads = extractLeads(restingecgdata);
 		
 		StringBuffer buffer = new StringBuffer();
@@ -103,6 +106,7 @@ public final class SierraEcgFiles {
 	}
 	
 	public static PreprocessReturn preprocess(InputStream inputStream) throws IOException, JAXBException {
+		
 		JAXBContext context = JAXBContext.newInstance("org.sierraecg.schema");
 		
 		return preprocessNew(context, inputStream);
