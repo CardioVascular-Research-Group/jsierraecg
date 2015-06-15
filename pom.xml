@@ -4,7 +4,7 @@
   <groupId>org.sierraecg</groupId>
   <artifactId>jsierraecg</artifactId>
   <packaging>jar</packaging>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.2-SNAPSHOT</version>
   <name>jsierraecg</name>
   <url>http://maven.apache.org</url>
 
@@ -22,6 +22,13 @@
 		<scope>test</scope>
 	</dependency>
   </dependencies>
+  	<distributionManagement>
+		<repository>
+			<id>nexus-snapshots</id>
+			<name>Snapshots</name>
+			<url>http://128.220.76.138:8081/nexus/content/repositories/snapshots/</url>
+		</repository>
+	</distributionManagement>
   <build>
   	<plugins>
   		<plugin>

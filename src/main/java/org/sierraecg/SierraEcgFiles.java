@@ -1,5 +1,5 @@
 package org.sierraecg;
-
+//Modifications by Chris Jurado
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
